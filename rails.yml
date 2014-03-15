@@ -1,0 +1,26 @@
+---
+#
+# This playbook bootstraps a Fedora server to host a Rails site.
+#
+- hosts: all
+  remote_user: root
+
+  vars:
+    site_name: whatever
+    site_repo: https://github.com/adammck/whatever
+
+  tasks:
+  - name: Install Git
+    yum: name=git state=latest
+
+  - name: Install nginx
+    yum: name=nginx state=latest
+
+  - name: Install Ruby 2.0.0-p247
+    yum: name=ruby-2.0.0.247 state=present
+
+  - name: Install Bundler
+    gem: name=bundler state=latest
+
+  - name: Check out the app source
+    git: repo={{repo}} dest=/srv/{{site_name}}
